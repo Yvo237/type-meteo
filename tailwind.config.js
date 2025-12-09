@@ -41,8 +41,6 @@ module.exports = {
           error: "#F87171",
         },
       },
-      "light",
-      "dark",
     ],
   },
 }

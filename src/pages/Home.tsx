@@ -5,7 +5,6 @@ import PopularCities from "../components/PopularCities"
 import HistoryList, { type SearchHistory } from "../components/HistoryList"
 import ForecastList from "../components/weather/ForecastList"
 import Favorites from "../components/Favorites"
-import ThemeToggle from "../components/ThemeToggle"
 import Skeleton from "../components/ui/Skeleton"
 import { useGeocoding } from "../hooks/useGeocoding"
 import { useWeather } from "../hooks/useWeather"
@@ -30,6 +29,7 @@ export default function Home() {
   })
   const [isLocating, setIsLocating] = useState(false)
   const [lastUpdated, setLastUpdated] = useState<string | undefined>(undefined)
+  const [uiError, setUiError] = useState<string | null>(null)
 
   const {
     geocode,
@@ -47,7 +47,7 @@ export default function Home() {
     getWeather,
   } = useWeather()
 
-  const combinedError = geoError || weatherError
+  const combinedError = uiError || geoError || weatherError
   const isFavorite = useMemo(
     () => (activeLocation ? favorites.some((f) => f.name === activeLocation.name && f.lat === activeLocation.lat && f.lon === activeLocation.lon) : false),
     [activeLocation, favorites]
@@ -127,7 +127,17 @@ export default function Home() {
   }
 
   const handleGeolocate = () => {
-    if (!navigator.geolocation) return
+    const isLocalhost = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+    const isSecure = window.location.protocol === "https:" || isLocalhost
+    if (!isSecure) {
+      setUiError("La géolocalisation nécessite HTTPS (ou localhost). Lancez l'app en https ou acceptez la permission.")
+      return
+    }
+    if (!navigator.geolocation) {
+      setUiError("Géolocalisation non supportée par ce navigateur.")
+      return
+    }
+    setUiError(null)
     setIsLocating(true)
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
@@ -143,7 +153,10 @@ export default function Home() {
         await fetchWeatherForLocation(location)
         setIsLocating(false)
       },
-      () => setIsLocating(false),
+      () => {
+        setIsLocating(false)
+        setUiError("Permission refusée ou position indisponible.")
+      },
       { enableHighAccuracy: true, timeout: 8000 }
     )
   }
@@ -157,7 +170,7 @@ export default function Home() {
     }
   }
 
-  const heroTitle = activeLocation?.name || "Meteo-Type"
+  const heroTitle = activeLocation?.name || "SkyNow"
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
@@ -167,7 +180,6 @@ export default function Home() {
           <h1 className="text-4xl font-black leading-tight">{heroTitle}</h1>
           <p className="text-sm text-gray-500">Recherche dynamique, favoris, géolocalisation et tendances.</p>
         </div>
-        <ThemeToggle />
       </header>
 
       <div className="max-w-3xl mx-auto">
