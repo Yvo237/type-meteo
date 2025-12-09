@@ -1,69 +1,111 @@
-# React + TypeScript + Vite
+# Meteo-Type 🌍
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Une application météo moderne construite avec React, TypeScript, Vite, Tailwind CSS et DaisyUI.
 
-Currently, two official plugins are available:
+## Fonctionnalités
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔍 Recherche de villes en temps réel avec debounce
+- 🌡️ Affichage des conditions météorologiques actuelles
+- 💨 Informations sur le vent et l'humidité
+- 🎨 Interface moderne avec Tailwind CSS et DaisyUI
+- ⚡ Chargement rapide avec Vite
+- 📱 Design responsive
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. **Cloner le projet**
+```bash
+git clone <votre-repo>
+cd type-meteo
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. **Installer les dépendances**
+```bash
+npm install
 ```
+
+3. **Configurer la clé API**
+   - Créer un fichier `.env` à la racine du projet
+   - Copier le contenu de `.env.example`
+   - Obtenir une clé API gratuite sur [OpenWeather](https://openweathermap.org/api)
+   - Ajouter votre clé API dans le fichier `.env`
+
+```bash
+cp .env.example .env
+# Puis éditer .env et ajouter votre clé API
+```
+
+## Démarrage
+
+### Mode développement
+```bash
+npm run dev
+```
+
+L'application sera disponible sur `http://localhost:5173`
+
+### Build pour la production
+```bash
+npm run build
+```
+
+### Aperçu de la build
+```bash
+npm run preview
+```
+
+## Structure du projet
+
+```
+src/
+├── components/          # Composants React réutilisables
+│   ├── weather/
+│   │   └── WeatherCard.tsx
+│   └── SearchBar.tsx
+├── services/            # Services API
+│   ├── geocodingApi.ts  # Géocodage des villes
+│   └── weatherApi.ts    # Récupération météo
+├── hooks/               # Hooks React personnalisés
+│   └── useDebounce.ts
+├── types/               # Définitions TypeScript
+│   └── index.ts
+├── utils/               # Utilitaires
+│   ├── constants.ts     # Constantes API
+│   └── helpers.ts       # Fonctions utilitaires
+├── App.tsx              # Composant principal
+├── App.css              # Styles Tailwind
+├── index.css            # Styles globaux
+└── main.tsx             # Point d'entrée
+```
+
+## Technologies utilisées
+
+- **React 19** - Framework UI
+- **TypeScript** - Typage statique
+- **Vite** - Bundler et serveur de développement
+- **Tailwind CSS** - Framework CSS utilitaire
+- **DaisyUI** - Composants Tailwind
+- **OpenWeather API** - Données météorologiques
+
+## Variables d'environnement
+
+```env
+VITE_OPENWEATHER_API_KEY=your_api_key_here
+```
+
+## Développement
+
+### Ajouter une nouvelle fonctionnalité
+
+1. Créer une nouvelle branche
+```bash
+git checkout -b feature/ma-fonctionnalite
+```
+
+2. Faire les modifications
+3. Tester localement avec `npm run dev`
+4. Commiter et pousser les changements
+
+## Licence
+
+MIT
