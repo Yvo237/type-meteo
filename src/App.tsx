@@ -20,25 +20,25 @@ function App() {
       <div className="absolute inset-0 opacity-100" style={{ backgroundImage: `var(--app-halo)` }} />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none" />
       <div className="relative">
-        <nav className="sticky top-0 z-30 backdrop-blur-xl bg-base-100/70 border-b border-primary/20 shadow-lg">
+        <nav className="sticky top-0 z-30 backdrop-blur-2xl bg-white/10 border-b border-white/20 shadow-2xl">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="h-11 w-11 rounded-2xl bg-primary text-primary-content grid place-items-center font-black shadow-lg shadow-primary/30">
+              <div className="h-12 w-12 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 text-white grid place-items-center font-black shadow-xl shadow-blue-500/30 backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-110 hover:shadow-2xl animate-pulse-slow">
                 S
               </div>
               <div>
-                <div className="text-xl font-black leading-tight tracking-tight">SkyNow</div>
-                <div className="text-xs opacity-70">Weather • Alerts • Insights</div>
+                <div className="text-2xl font-black leading-tight tracking-tight text-white drop-shadow-lg">SkyNow</div>
+                <div className="text-xs text-white/80 font-medium uppercase tracking-wider">Weather • Alerts • Insights</div>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="btn-group btn-group-horizontal flex-wrap shadow-sm rounded-xl border border-primary/20 bg-base-100/70">
-                <button className={`btn btn-xs md:btn-sm ${tab === "home" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("home")}>Conditions</button>
-                <button className={`btn btn-xs md:btn-sm ${tab === "explore" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("explore")}>Explorer</button>
-                <button className={`btn btn-xs md:btn-sm ${tab === "alerts" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("alerts")}>Alertes</button>
-                <button className={`btn btn-xs md:btn-sm ${tab === "compare" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("compare")}>Comparer</button>
-                <button className={`btn btn-xs md:btn-sm ${tab === "statistics" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("statistics")}>Statistiques</button>
-                <button className={`btn btn-xs md:btn-sm ${tab === "map" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("map")}>Carte</button>
+              <div className="btn-group btn-group-horizontal flex-wrap shadow-xl rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md overflow-hidden">
+                <button className={`btn btn-xs md:btn-sm transition-all duration-300 ${tab === "home" ? "bg-white/20 text-white font-semibold shadow-lg" : "text-white/80 hover:text-white hover:bg-white/10"}`} onClick={() => setTab("home")}>Conditions</button>
+                <button className={`btn btn-xs md:btn-sm transition-all duration-300 ${tab === "explore" ? "bg-white/20 text-white font-semibold shadow-lg" : "text-white/80 hover:text-white hover:bg-white/10"}`} onClick={() => setTab("explore")}>Explorer</button>
+                <button className={`btn btn-xs md:btn-sm transition-all duration-300 ${tab === "alerts" ? "bg-white/20 text-white font-semibold shadow-lg" : "text-white/80 hover:text-white hover:bg-white/10"}`} onClick={() => setTab("alerts")}>Alertes</button>
+                <button className={`btn btn-xs md:btn-sm transition-all duration-300 ${tab === "compare" ? "bg-white/20 text-white font-semibold shadow-lg" : "text-white/80 hover:text-white hover:bg-white/10"}`} onClick={() => setTab("compare")}>Comparer</button>
+                <button className={`btn btn-xs md:btn-sm transition-all duration-300 ${tab === "statistics" ? "bg-white/20 text-white font-semibold shadow-lg" : "text-white/80 hover:text-white hover:bg-white/10"}`} onClick={() => setTab("statistics")}>Statistiques</button>
+                <button className={`btn btn-xs md:btn-sm transition-all duration-300 ${tab === "map" ? "bg-white/20 text-white font-semibold shadow-lg" : "text-white/80 hover:text-white hover:bg-white/10"}`} onClick={() => setTab("map")}>Carte</button>
               </div>
               <ThemeToggle />
             </div>
