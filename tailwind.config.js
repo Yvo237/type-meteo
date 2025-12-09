@@ -13,31 +13,31 @@ module.exports = {
     themes: [
       {
         meteolight: {
-          primary: "#0066FF",
-          secondary: "#0052CC",
-          accent: "#FFB800",
-          neutral: "#000000",
-          "base-100": "#FFFFFF",
-          "base-200": "#F5F5F5",
-          "base-300": "#E0E0E0",
-          info: "#0066FF",
+          primary: "#3B82F6",      // bright blue
+          secondary: "#111827",    // deep slate
+          accent: "#F59E0B",       // amber
+          neutral: "#0B0F1A",
+          "base-100": "#0F172A",
+          "base-200": "#111827",
+          "base-300": "#1F2937",
+          info: "#38BDF8",
           success: "#10B981",
-          warning: "#FFB800",
-          error: "#EF4444",
+          warning: "#F59E0B",
+          error: "#F43F5E",
         },
       },
       {
         meteodark: {
-          primary: "#0066FF",
-          secondary: "#0052CC",
-          accent: "#FFB800",
-          neutral: "#000000",
-          "base-100": "#0A0A0A",
-          "base-200": "#1A1A1A",
-          "base-300": "#2A2A2A",
-          info: "#0066FF",
-          success: "#34D399",
-          warning: "#FFB800",
+          primary: "#60A5FA",      // soft neon blue
+          secondary: "#0B1220",    // ink
+          accent: "#FBBF24",       // warm gold
+          neutral: "#05070E",
+          "base-100": "#05070E",
+          "base-200": "#0B1220",
+          "base-300": "#111827",
+          info: "#38BDF8",
+          success: "#22C55E",
+          warning: "#FBBF24",
           error: "#F87171",
         },
       },

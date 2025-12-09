@@ -15,61 +15,30 @@ function App() {
   return (
     <div
       className="min-h-screen text-base-content relative"
-      style={{
-        backgroundImage: `var(--app-gradient)`,
-      }}
+      style={{ backgroundImage: `var(--app-gradient)` }}
     >
-      <div className="absolute inset-0" style={{ backgroundImage: `var(--app-halo)` }} />
+      <div className="absolute inset-0 opacity-100" style={{ backgroundImage: `var(--app-halo)` }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none" />
       <div className="relative">
-        <nav className="sticky top-0 z-30 backdrop-blur bg-base-100/70 border-b border-base-300/60">
+        <nav className="sticky top-0 z-30 backdrop-blur-xl bg-base-100/70 border-b border-primary/20 shadow-lg">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-primary text-primary-content grid place-items-center font-black">
+              <div className="h-11 w-11 rounded-2xl bg-primary text-primary-content grid place-items-center font-black shadow-lg shadow-primary/30">
                 S
               </div>
               <div>
-                <div className="text-xl font-black leading-tight">SkyNow</div>
-                <div className="text-xs opacity-70">Météo instantanée</div>
+                <div className="text-xl font-black leading-tight tracking-tight">SkyNow</div>
+                <div className="text-xs opacity-70">Weather • Alerts • Insights</div>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="btn-group btn-group-horizontal flex-wrap">
-                <button
-                  className={`btn btn-sm ${tab === "home" ? "btn-primary" : "btn-ghost"}`}
-                  onClick={() => setTab("home")}
-                >
-                  Conditions
-                </button>
-                <button
-                  className={`btn btn-sm ${tab === "explore" ? "btn-primary" : "btn-ghost"}`}
-                  onClick={() => setTab("explore")}
-                >
-                  Explorer
-                </button>
-                <button
-                  className={`btn btn-sm ${tab === "alerts" ? "btn-primary" : "btn-ghost"}`}
-                  onClick={() => setTab("alerts")}
-                >
-                  Alertes
-                </button>
-                <button
-                  className={`btn btn-sm ${tab === "compare" ? "btn-primary" : "btn-ghost"}`}
-                  onClick={() => setTab("compare")}
-                >
-                  Comparer
-                </button>
-                <button
-                  className={`btn btn-sm ${tab === "statistics" ? "btn-primary" : "btn-ghost"}`}
-                  onClick={() => setTab("statistics")}
-                >
-                  Statistiques
-                </button>
-                <button
-                  className={`btn btn-sm ${tab === "map" ? "btn-primary" : "btn-ghost"}`}
-                  onClick={() => setTab("map")}
-                >
-                  Carte
-                </button>
+              <div className="btn-group btn-group-horizontal flex-wrap shadow-sm rounded-xl border border-primary/20 bg-base-100/70">
+                <button className={`btn btn-xs md:btn-sm ${tab === "home" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("home")}>Conditions</button>
+                <button className={`btn btn-xs md:btn-sm ${tab === "explore" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("explore")}>Explorer</button>
+                <button className={`btn btn-xs md:btn-sm ${tab === "alerts" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("alerts")}>Alertes</button>
+                <button className={`btn btn-xs md:btn-sm ${tab === "compare" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("compare")}>Comparer</button>
+                <button className={`btn btn-xs md:btn-sm ${tab === "statistics" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("statistics")}>Statistiques</button>
+                <button className={`btn btn-xs md:btn-sm ${tab === "map" ? "btn-primary" : "btn-ghost"}`} onClick={() => setTab("map")}>Carte</button>
               </div>
               <ThemeToggle />
             </div>
