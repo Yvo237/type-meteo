@@ -57,6 +57,7 @@ export default function Compare() {
         }
       }
     } catch (err) {
+      console.error('Erreur recherche ville:', err)
       updated[index] = {
         ...updated[index],
         loading: false,
