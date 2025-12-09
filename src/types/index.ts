@@ -19,7 +19,7 @@ export type GeocodingResult = {
   name: string
   lat: number
   lon: number
-  country: string
+  country?: string
   state?: string
 }
 

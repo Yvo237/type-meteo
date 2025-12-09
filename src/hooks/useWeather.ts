@@ -1,8 +1,10 @@
 import { useState, useCallback } from "react"
-import { fetchWeather, type WeatherData } from "../services/weatherApi"
+import { fetchForecast, fetchWeather, type WeatherData } from "../services/weatherApi"
+import type { WeatherForecast } from "../types"
 
 interface UseWeatherState {
   weather: WeatherData | null
+  forecast: WeatherForecast[]
   loading: boolean
   error: string | null
 }
@@ -10,18 +12,27 @@ interface UseWeatherState {
 export function useWeather() {
   const [state, setState] = useState<UseWeatherState>({
     weather: null,
+    forecast: [],
     loading: false,
     error: null,
   })
 
   const getWeather = useCallback(async (lat: number, lon: number) => {
-    setState({ weather: null, loading: true, error: null })
+    setState((prev) => ({ ...prev, weather: null, loading: true, error: null }))
     try {
-      const data = await fetchWeather(lat, lon)
-      setState({ weather: data, loading: false, error: null })
-      return data
+      const [current, forecast] = await Promise.all([
+        fetchWeather(lat, lon),
+        fetchForecast(lat, lon),
+      ])
+      setState({ weather: current, forecast, loading: false, error: null })
+      return { current, forecast }
     } catch (err) {
-      setState({ weather: null, loading: false, error: err instanceof Error ? err.message : "Erreur météo" })
+      setState({
+        weather: null,
+        forecast: [],
+        loading: false,
+        error: err instanceof Error ? err.message : "Erreur météo",
+      })
       return null
     }
   }, [])

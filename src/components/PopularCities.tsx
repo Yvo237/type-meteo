@@ -1,27 +1,11 @@
 import React from "react"
-import { useGeocoding } from "../hooks/useGeocoding"
-import { useWeather } from "../hooks/useWeather"
 
 const POPULAR_CITIES = [
   "Paris", "Lyon", "Marseille", "Toulouse", "Nice", 
   "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille"
 ]
 
-export default function PopularCities() {
-  const { geocode } = useGeocoding()
-  const { getWeather } = useWeather()
-
-  const handleCityClick = async (city: string) => {
-    try {
-      const coords = await geocode(city)
-      if (coords) {
-        getWeather(coords.lat, coords.lon)
-      }
-    } catch (error) {
-      console.error("Erreur:", error)
-    }
-  }
-
+export default function PopularCities({ onSelect }: { onSelect: (city: string) => void }) {
   return (
     <div className="card bg-base-100 shadow-xl">
       <div className="card-body">
@@ -30,7 +14,7 @@ export default function PopularCities() {
           {POPULAR_CITIES.map((city) => (
             <button
               key={city}
-              onClick={() => handleCityClick(city)}
+              onClick={() => onSelect(city)}
               className="btn btn-sm btn-outline btn-primary hover:btn-primary"
             >
               {city}

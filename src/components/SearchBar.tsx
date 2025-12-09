@@ -1,32 +1,89 @@
-import React, { useState } from "react"
-import { useGeocoding } from "../hooks/useGeocoding"
-import { useWeather } from "../hooks/useWeather"
+import React from "react"
+import type { GeocodingResult } from "../services/geocodingApi"
 import { useDebounce } from "../hooks/useDebounce"
 
 interface SearchBarProps {
-  onSearch: (city: string) => void
+  value: string
+  onChange: (value: string) => void
+  onSearch: (value: string) => void
+  onSubmit?: (value: string) => void
+  suggestions: GeocodingResult[]
+  isLoading?: boolean
+  onSelectSuggestion: (suggestion: GeocodingResult) => void
+  onGeolocate?: () => void
 }
 
-export default function SearchBar({ onSearch }: SearchBarProps) {
-  const [city, setCity] = useState("")
-  const debouncedCity = useDebounce(city, 300)
+export default function SearchBar({
+  value,
+  onChange,
+  onSearch,
+  onSubmit,
+  suggestions,
+  isLoading = false,
+  onSelectSuggestion,
+  onGeolocate,
+}: SearchBarProps) {
+  const debouncedValue = useDebounce(value, 300)
 
   React.useEffect(() => {
-    if (debouncedCity) {
-      onSearch(debouncedCity)
+    if (debouncedValue.trim()) {
+      onSearch(debouncedValue)
     }
-  }, [debouncedCity, onSearch])
+  }, [debouncedValue, onSearch])
+
+  const handleSelect = (suggestion: GeocodingResult) => {
+    onSelectSuggestion(suggestion)
+  }
 
   return (
     <div className="w-full">
-      <div className="form-control">
-        <input
-          type="text"
-          placeholder="Rechercher une ville..."
-          className="input input-bordered input-lg w-full"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
+      <div className="form-control relative">
+        <div className="join">
+          <input
+            type="text"
+            placeholder="Rechercher une ville..."
+            className="input input-bordered input-lg join-item w-full"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onSubmit?.(value)
+              }
+            }}
+          />
+          {onGeolocate && (
+            <button
+              type="button"
+              className="btn btn-primary join-item"
+              onClick={onGeolocate}
+            >
+              📍
+            </button>
+          )}
+        </div>
+        {(suggestions.length > 0 || isLoading) && (
+          <div className="absolute left-0 right-0 top-full z-20 bg-base-100 shadow-lg rounded-box w-full mt-2 border border-base-200 overflow-hidden">
+            {isLoading && (
+              <div className="p-3 flex items-center gap-2 text-sm">
+                <span className="loading loading-spinner loading-xs" />
+                Recherche...
+              </div>
+            )}
+            {suggestions.map((s) => (
+              <button
+                key={`${s.name}-${s.lat}-${s.lon}`}
+                type="button"
+                className="w-full text-left px-4 py-3 hover:bg-base-200 transition-colors"
+                onClick={() => handleSelect(s)}
+              >
+                <div className="font-medium">{s.name}</div>
+                <div className="text-xs opacity-70">
+                  {[s.state, s.country].filter(Boolean).join(", ")}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
