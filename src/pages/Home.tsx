@@ -235,18 +235,20 @@ export default function Home() {
       </header>
 
       {/* Search Section */}
-      <div className="max-w-4xl mx-auto space-y-4">
+      <div className="max-w-4xl mx-auto space-y-4 relative z-10">
         <div className="backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/5 border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-blue-500/10 transition-shadow duration-500">
-          <SearchBar
-            value={query}
-            onChange={handleSearchChange}
-            onSearch={searchSuggestions}
-            onSubmit={handleSubmitSearch}
-            suggestions={suggestions}
-            isLoading={geoLoading}
-            onSelectSuggestion={handleSuggestionSelect}
-            onGeolocate={handleGeolocate}
-          />
+          <div className="relative z-10">
+            <SearchBar
+              value={query}
+              onChange={handleSearchChange}
+              onSearch={searchSuggestions}
+              onSubmit={handleSubmitSearch}
+              suggestions={suggestions}
+              isLoading={geoLoading}
+              onSelectSuggestion={handleSuggestionSelect}
+              onGeolocate={handleGeolocate}
+            />
+          </div>
           
           {combinedError && (
             <div className="mt-6 px-6 py-4 rounded-2xl backdrop-blur-sm bg-red-500/20 border border-red-500/30">

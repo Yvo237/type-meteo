@@ -23,11 +23,13 @@ export default function Input({
       <input
         className={`
           input input-bordered w-full
+          bg-base-100 text-base-content placeholder:text-base-content/50
           focus:input-primary
           transition-all duration-200
           ${error ? "input-error" : ""}
           ${className}
         `}
+        style={{ color: 'inherit' }}
         {...props}
       />
       {error && (

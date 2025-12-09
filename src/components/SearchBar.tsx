@@ -42,7 +42,8 @@ export default function SearchBar({
           <input
             type="text"
             placeholder="Rechercher une ville..."
-            className="input input-bordered input-lg join-item w-full bg-transparent focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            className="input input-bordered input-lg join-item w-full bg-base-100 text-base-content placeholder:text-base-content/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            style={{ color: 'inherit' }}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={(e) => {
@@ -62,9 +63,9 @@ export default function SearchBar({
           )}
         </div>
         {(suggestions.length > 0 || isLoading) && (
-          <div className="absolute left-0 right-0 top-full z-20 bg-base-100 shadow-lg rounded-box w-full mt-2 border border-base-200 overflow-hidden backdrop-blur">
+          <div className="absolute left-0 right-0 top-full z-[100] bg-base-100 shadow-2xl rounded-xl w-full mt-2 border border-base-300 overflow-hidden backdrop-blur-xl max-h-64 overflow-y-auto">
             {isLoading && (
-              <div className="p-3 flex items-center gap-2 text-sm">
+              <div className="p-3 flex items-center gap-2 text-sm text-base-content">
                 <span className="loading loading-spinner loading-xs" />
                 Recherche...
               </div>
@@ -73,11 +74,11 @@ export default function SearchBar({
               <button
                 key={`${s.name}-${s.lat}-${s.lon}`}
                 type="button"
-                className="w-full text-left px-4 py-3 hover:bg-base-200 transition-colors"
+                className="w-full text-left px-4 py-3 hover:bg-base-200 transition-colors text-base-content"
                 onClick={() => handleSelect(s)}
               >
-                <div className="font-medium">{s.name}</div>
-                <div className="text-xs opacity-70">
+                <div className="font-medium text-base-content">{s.name}</div>
+                <div className="text-xs opacity-70 text-base-content/70">
                   {[s.state, s.country].filter(Boolean).join(", ")}
                 </div>
               </button>

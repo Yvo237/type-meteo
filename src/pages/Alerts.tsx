@@ -171,6 +171,7 @@ export default function Alerts() {
                 type="text"
                 placeholder="Entrez le nom d'une ville..."
                 className="w-full px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent transition-all duration-300"
+                style={{ color: '#ffffff', caretColor: '#ffffff' }}
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
                 onKeyDown={(e) => {
