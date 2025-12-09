@@ -64,137 +64,228 @@ export default function Statistics() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 space-y-6">
-      <header className="space-y-2">
-        <p className="text-sm uppercase tracking-wide text-primary font-semibold">Statistiques</p>
-        <h1 className="text-3xl font-black leading-tight">Analyse météorologique</h1>
-        <p className="text-sm text-gray-500">
-          Statistiques et tendances météo pour mieux comprendre les conditions climatiques.
-        </p>
+    <div className="container mx-auto px-4 py-12 space-y-10 animate-fade-in">
+      {/* Hero Header */}
+      <header className="space-y-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 backdrop-blur-md border border-white/20">
+          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+          <span className="text-sm font-semibold text-white/90 uppercase tracking-wider">
+            Statistiques
+          </span>
+        </div>
+        
+        <div className="space-y-3">
+          <h1 className="text-6xl md:text-7xl font-black leading-none text-white drop-shadow-2xl">
+            Analyse météorologique
+          </h1>
+          <p className="text-xl text-white/70 font-light max-w-3xl leading-relaxed">
+            Statistiques et tendances météo pour mieux comprendre les conditions climatiques et anticiper les changements.
+          </p>
+        </div>
       </header>
 
-      <Card className="border border-primary/20">
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-semibold">Rechercher une ville</span>
-          </label>
-          <div className="join">
-            <input
-              type="text"
-              placeholder="Entrez le nom d'une ville..."
-              className="input input-bordered input-primary join-item flex-1"
-              value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearch()
-                }
-              }}
-            />
-            <button
-              className="btn btn-primary join-item"
-              onClick={handleSearch}
-              disabled={loading || !selectedCity.trim()}
-            >
-              {loading ? (
-                <span className="loading loading-spinner loading-sm" />
-              ) : (
-                "Analyser"
-              )}
-            </button>
+      {/* Search Card */}
+      <div className="max-w-2xl mx-auto">
+        <Card className="backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/5 border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-cyan-500/10 transition-shadow duration-500">
+          <div className="space-y-4">
+            <label className="block text-white font-semibold text-lg">
+              Rechercher une ville
+            </label>
+            <div className="flex gap-3">
+              <input
+                type="text"
+                placeholder="Entrez le nom d'une ville..."
+                className="flex-1 px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent transition-all duration-300"
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch()
+                  }
+                }}
+              />
+              <button
+                className="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold hover:from-cyan-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg whitespace-nowrap"
+                onClick={handleSearch}
+                disabled={loading || !selectedCity.trim()}
+              >
+                {loading ? (
+                  <span className="inline-block w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  "📊 Analyser"
+                )}
+              </button>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
 
+      {/* Loading State */}
       {loading && (
-        <div className="space-y-3">
-          <Skeleton className="h-48 w-full" />
-          <Skeleton className="h-32 w-full" />
+        <div className="grid gap-6 md:grid-cols-2">
+          <Skeleton className="h-64 w-full rounded-3xl" />
+          <Skeleton className="h-64 w-full rounded-3xl" />
+          <Skeleton className="h-48 w-full rounded-3xl md:col-span-2" />
         </div>
       )}
 
+      {/* Statistics Cards */}
       {stats && (
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card className="border border-base-300/60">
-            <h3 className="text-lg font-semibold mb-4">Températures</h3>
-            <div className="space-y-4">
-              <div>
-                <div className="text-xs opacity-70 mb-1">Moyenne</div>
-                <div className="text-3xl font-bold text-primary">{stats.avgTemp}°C</div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Temperature Card */}
+          <Card className="backdrop-blur-xl bg-gradient-to-br from-orange-500/20 to-red-500/10 border border-orange-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-orange-500/20 transition-all duration-500 group">
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="text-4xl transform group-hover:scale-110 transition-transform duration-300">🌡️</span>
+                <h3 className="text-2xl font-bold text-white">Températures</h3>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-xs opacity-70 mb-1">Minimum</div>
-                  <div className="text-xl font-semibold">{stats.minTemp}°C</div>
+              
+              <div className="space-y-6">
+                <div className="relative">
+                  <div className="text-sm text-white/70 mb-2 font-medium">Moyenne</div>
+                  <div className="text-5xl font-black text-white drop-shadow-lg">
+                    {stats.avgTemp}°C
+                  </div>
+                  <div className="absolute top-0 right-0 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+                    <span className="text-white/80 text-sm font-semibold">30j</span>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs opacity-70 mb-1">Maximum</div>
-                  <div className="text-xl font-semibold">{stats.maxTemp}°C</div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="px-5 py-4 rounded-2xl bg-blue-500/20 backdrop-blur-sm border border-blue-500/30">
+                    <div className="text-sm text-white/70 mb-2 flex items-center gap-2">
+                      <span>❄️</span>
+                      Minimum
+                    </div>
+                    <div className="text-3xl font-bold text-white">
+                      {stats.minTemp}°C
+                    </div>
+                  </div>
+                  <div className="px-5 py-4 rounded-2xl bg-red-500/20 backdrop-blur-sm border border-red-500/30">
+                    <div className="text-sm text-white/70 mb-2 flex items-center gap-2">
+                      <span>🔥</span>
+                      Maximum
+                    </div>
+                    <div className="text-3xl font-bold text-white">
+                      {stats.maxTemp}°C
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </Card>
 
-          <Card className="border border-base-300/60">
-            <h3 className="text-lg font-semibold mb-4">Conditions moyennes</h3>
-            <div className="space-y-4">
-              <div>
-                <div className="text-xs opacity-70 mb-1">Humidité moyenne</div>
-                <div className="text-2xl font-bold">{stats.avgHumidity}%</div>
+          {/* Conditions Card */}
+          <Card className="backdrop-blur-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 group">
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="text-4xl transform group-hover:scale-110 transition-transform duration-300">🌤️</span>
+                <h3 className="text-2xl font-bold text-white">Conditions moyennes</h3>
               </div>
-              <div>
-                <div className="text-xs opacity-70 mb-1">Vent moyen</div>
-                <div className="text-2xl font-bold">{stats.avgWindSpeed} km/h</div>
-              </div>
-              <div>
-                <div className="text-xs opacity-70 mb-1">Condition la plus fréquente</div>
-                <div className="text-lg font-semibold capitalize">{stats.mostCommonCondition}</div>
+              
+              <div className="space-y-5">
+                <div className="px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-sm text-white/70 font-medium flex items-center gap-2">
+                      <span>💧</span>
+                      Humidité moyenne
+                    </div>
+                    <div className="text-3xl font-bold text-white">
+                      {stats.avgHumidity}%
+                    </div>
+                  </div>
+                  <div className="w-full bg-white/20 rounded-full h-2">
+                    <div 
+                      className="bg-gradient-to-r from-blue-400 to-cyan-400 h-2 rounded-full transition-all duration-1000"
+                      style={{ width: `${stats.avgHumidity}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                  <div className="text-sm text-white/70 mb-2 font-medium flex items-center gap-2">
+                    <span>💨</span>
+                    Vent moyen
+                  </div>
+                  <div className="text-3xl font-bold text-white">
+                    {stats.avgWindSpeed} km/h
+                  </div>
+                </div>
+
+                <div className="px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                  <div className="text-sm text-white/70 mb-2 font-medium">
+                    Condition la plus fréquente
+                  </div>
+                  <div className="text-xl font-semibold capitalize text-white">
+                    {stats.mostCommonCondition}
+                  </div>
+                </div>
               </div>
             </div>
           </Card>
 
-          <Card className="border border-base-300/60 md:col-span-2">
-            <h3 className="text-lg font-semibold mb-4">Informations</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-              <div>
-                <div className="text-xs opacity-70">Ville</div>
-                <div className="font-semibold">{stats.city}</div>
+          {/* Info Card */}
+          <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-purple-500/30 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 md:col-span-2">
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="text-4xl">📈</span>
+                <h3 className="text-2xl font-bold text-white">Informations sur l'analyse</h3>
               </div>
-              <div>
-                <div className="text-xs opacity-70">Points de données</div>
-                <div className="font-semibold">{stats.dataPoints}</div>
-              </div>
-              <div>
-                <div className="text-xs opacity-70">Écart température</div>
-                <div className="font-semibold">{stats.maxTemp - stats.minTemp}°C</div>
-              </div>
-              <div>
-                <div className="text-xs opacity-70">Période</div>
-                <div className="font-semibold">30 jours</div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="text-sm text-white/70 mb-2 font-medium">📍 Ville</div>
+                  <div className="text-lg font-bold text-white">{stats.city}</div>
+                </div>
+                <div className="px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="text-sm text-white/70 mb-2 font-medium">📊 Données</div>
+                  <div className="text-lg font-bold text-white">{stats.dataPoints} points</div>
+                </div>
+                <div className="px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="text-sm text-white/70 mb-2 font-medium">📏 Écart temp.</div>
+                  <div className="text-lg font-bold text-white">{stats.maxTemp - stats.minTemp}°C</div>
+                </div>
+                <div className="px-5 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="text-sm text-white/70 mb-2 font-medium">📅 Période</div>
+                  <div className="text-lg font-bold text-white">30 jours</div>
+                </div>
               </div>
             </div>
           </Card>
         </div>
       )}
 
+      {/* No Data State */}
       {!stats && !loading && selectedCity && (
-        <Card className="border border-dashed border-base-300">
-          <div className="text-center py-8 text-gray-500">
-            <div className="text-4xl mb-3">📊</div>
-            <p>Aucune statistique disponible pour cette ville</p>
+        <div className="relative overflow-hidden rounded-3xl border-2 border-dashed border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/10 to-white/5">
+          <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5"></div>
+          <div className="relative text-center py-24 px-6">
+            <div className="text-8xl mb-6 animate-pulse">📊</div>
+            <h3 className="text-2xl font-bold text-white mb-3">
+              Données non disponibles
+            </h3>
+            <p className="text-lg text-white/70 font-light max-w-md mx-auto">
+              Aucune statistique disponible pour cette ville. Veuillez réessayer avec une autre localisation.
+            </p>
           </div>
-        </Card>
+        </div>
       )}
 
+      {/* Empty State */}
       {!selectedCity && (
-        <Card className="border border-dashed border-base-300">
-          <div className="text-center py-8 text-gray-500">
-            <div className="text-4xl mb-3">📈</div>
-            <p>Recherchez une ville pour voir ses statistiques météo</p>
+        <div className="relative overflow-hidden rounded-3xl border-2 border-dashed border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/10 to-white/5">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5"></div>
+          <div className="relative text-center py-24 px-6">
+            <div className="text-8xl mb-6 animate-bounce">📈</div>
+            <h3 className="text-2xl font-bold text-white mb-3">
+              Analysez les statistiques météo
+            </h3>
+            <p className="text-lg text-white/70 font-light max-w-md mx-auto">
+              Recherchez une ville pour découvrir ses tendances météorologiques, températures moyennes et conditions climatiques.
+            </p>
           </div>
-        </Card>
+        </div>
       )}
     </div>
   )
 }
-
