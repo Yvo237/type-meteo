@@ -51,7 +51,7 @@ export default function Statistics() {
         setStats(simulatedStats)
       }
     } catch (err) {
-      console.error('Erreur statistiques:', err)
+      console.error(err)
       setStats(null)
     }
     setLoading(false)

@@ -95,13 +95,9 @@ export default function Alerts() {
   const handleSearch = async (city: string) => {
     if (!city.trim()) return
     setSelectedCity(city)
-    try {
-      const coords = await geocode(city)
-      if (coords) {
-        await getWeather(coords.lat, coords.lon)
-      }
-    } catch (err) {
-      console.error('Erreur recherche:', err)
+    const coords = await geocode(city)
+    if (coords) {
+      await getWeather(coords.lat, coords.lon)
     }
   }
 
