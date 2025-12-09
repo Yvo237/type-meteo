@@ -15,7 +15,6 @@ export default function ThemeToggle() {
     localStorage.setItem("theme", theme)
   }, [theme])
 
-  const toggle = () => setTheme((prev) => (prev === "light" ? "dark" : "light"))
   const toggle = () => setTheme((prev) => (prev === "meteodark" ? "meteolight" : "meteodark"))
 
   return (
