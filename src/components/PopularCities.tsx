@@ -1,8 +1,21 @@
 import React from "react"
 
 const POPULAR_CITIES = [
-  "Paris", "Lyon", "Marseille", "Toulouse", "Nice", 
-  "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille"
+  // Cameroun
+  "Yaoundé",
+  "Douala",
+  "Garoua",
+  "Bamenda",
+  "Bafoussam",
+  // Afrique
+  "Abidjan",
+  "Lagos",
+  "Dakar",
+  "Nairobi",
+  "Le Caire",
+  "Johannesburg",
+  "Casablanca",
+  "Accra",
 ]
 
 export default function PopularCities({ onSelect }: { onSelect: (city: string) => void }) {

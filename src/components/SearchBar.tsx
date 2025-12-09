@@ -38,11 +38,11 @@ export default function SearchBar({
   return (
     <div className="w-full">
       <div className="form-control relative">
-        <div className="join">
+        <div className="join shadow-md shadow-primary/10 rounded-xl overflow-hidden border border-base-300/60 bg-base-100">
           <input
             type="text"
             placeholder="Rechercher une ville..."
-            className="input input-bordered input-lg join-item w-full"
+            className="input input-bordered input-lg join-item w-full bg-transparent focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={(e) => {
@@ -54,15 +54,15 @@ export default function SearchBar({
           {onGeolocate && (
             <button
               type="button"
-              className="btn btn-primary join-item"
+              className="btn btn-primary join-item px-4"
               onClick={onGeolocate}
             >
-              📍
+              <span className="text-lg">📍</span>
             </button>
           )}
         </div>
         {(suggestions.length > 0 || isLoading) && (
-          <div className="absolute left-0 right-0 top-full z-20 bg-base-100 shadow-lg rounded-box w-full mt-2 border border-base-200 overflow-hidden">
+          <div className="absolute left-0 right-0 top-full z-20 bg-base-100 shadow-lg rounded-box w-full mt-2 border border-base-200 overflow-hidden backdrop-blur">
             {isLoading && (
               <div className="p-3 flex items-center gap-2 text-sm">
                 <span className="loading loading-spinner loading-xs" />

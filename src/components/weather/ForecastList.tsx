@@ -16,25 +16,28 @@ export default function ForecastList({ items }: ForecastListProps) {
   }
 
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div className="card bg-base-100 shadow-xl border border-base-300/60">
       <div className="card-body">
-        <h2 className="card-title text-lg font-semibold mb-4">Tendances (5 jours)</h2>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <h2 className="card-title text-lg font-semibold">Tendances (5 jours)</h2>
+          <span className="text-xs opacity-70">Prévisions quotidiennes</span>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {items.map((forecast) => (
             <div
               key={forecast.date}
-              className="p-3 rounded-lg border border-base-200 bg-base-200/60 hover:shadow-md transition-all"
+              className="p-3 rounded-xl border border-base-300/60 bg-base-200/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
-              <div className="text-sm font-semibold mb-2">{formatDate(forecast.date)}</div>
+              <div className="text-sm font-semibold mb-2 capitalize">{formatDate(forecast.date)}</div>
               <div className="flex items-center gap-2">
                 <WeatherIcon iconUrl={`https://openweathermap.org/img/wn/${forecast.icon}@2x.png`} size="sm" />
-                <div className="text-sm">{forecast.description}</div>
+                <div className="text-sm line-clamp-2">{forecast.description}</div>
               </div>
-              <div className="flex justify-between text-sm mt-2">
+              <div className="flex justify-between text-sm mt-3">
                 <span className="font-semibold text-primary">{formatTemperature(forecast.temperature.max)}</span>
                 <span className="text-gray-500">{formatTemperature(forecast.temperature.min)}</span>
               </div>
-              <div className="text-xs opacity-70 mt-1">
+              <div className="text-xs opacity-70 mt-2">
                 💧 {forecast.humidity}% · 💨 {forecast.windSpeed} km/h
               </div>
             </div>

@@ -6,6 +6,7 @@ import HistoryList, { type SearchHistory } from "../components/HistoryList"
 import ForecastList from "../components/weather/ForecastList"
 import Favorites from "../components/Favorites"
 import ThemeToggle from "../components/ThemeToggle"
+import Skeleton from "../components/ui/Skeleton"
 import { useGeocoding } from "../hooks/useGeocoding"
 import { useWeather } from "../hooks/useWeather"
 import type { GeocodingResult } from "../services/geocodingApi"
@@ -28,6 +29,7 @@ export default function Home() {
     return saved ? JSON.parse(saved) : []
   })
   const [isLocating, setIsLocating] = useState(false)
+  const [lastUpdated, setLastUpdated] = useState<string | undefined>(undefined)
 
   const {
     geocode,
@@ -93,6 +95,7 @@ export default function Home() {
     const result = await getWeather(location.lat, location.lon)
     if (result?.current) {
       addToHistory(location, result.current.temperature, result.current.description)
+      setLastUpdated(new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }))
     }
   }
 
@@ -185,37 +188,46 @@ export default function Home() {
         )}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-6 items-start">
         <div className="lg:col-span-2 space-y-4">
-          {weather && activeLocation && (
-            <WeatherCard
-              title={activeLocation.name}
-              temperature={weather.temperature}
-              description={weather.description}
-              icon={getWeatherIconUrl(weather.icon)}
-              humidity={weather.humidity}
-              windSpeed={weather.windSpeed}
-              pressure={weather.pressure}
-              feelsLike={weather.feelsLike}
-              visibility={weather.visibility}
-              isFavorite={isFavorite}
-              onToggleFavorite={toggleFavorite}
-            />
-          )}
-          {!weather && !weatherLoading && (
-            <div className="text-center text-gray-500 py-10 border border-dashed border-base-300 rounded-xl">
-              Recherchez une ville pour afficher sa météo détaillée.
+          <section className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Maintenant</h2>
+              {lastUpdated && <span className="text-xs opacity-70">Dernière MAJ {lastUpdated}</span>}
             </div>
-          )}
-          {weatherLoading && (
-            <div className="text-center py-10">
-              <span className="loading loading-spinner loading-lg" />
-            </div>
-          )}
+            {weather && activeLocation && (
+              <WeatherCard
+                title={activeLocation.name}
+                temperature={weather.temperature}
+                description={weather.description}
+                icon={getWeatherIconUrl(weather.icon)}
+                humidity={weather.humidity}
+                windSpeed={weather.windSpeed}
+                pressure={weather.pressure}
+                feelsLike={weather.feelsLike}
+                visibility={weather.visibility}
+                isFavorite={isFavorite}
+                onToggleFavorite={toggleFavorite}
+                lastUpdated={lastUpdated}
+              />
+            )}
+            {!weather && !weatherLoading && (
+              <div className="text-center text-gray-500 py-10 border border-dashed border-base-300 rounded-xl">
+                Recherchez une ville pour afficher sa météo détaillée.
+              </div>
+            )}
+            {weatherLoading && (
+              <div className="space-y-3">
+                <Skeleton className="h-52 w-full" />
+                <Skeleton className="h-8 w-1/2" />
+              </div>
+            )}
+          </section>
+
           {forecast.length > 0 && <ForecastList items={forecast} />}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 lg:sticky lg:top-6">
           <PopularCities onSelect={handleSubmitSearch} />
           <Favorites
             items={favorites}
