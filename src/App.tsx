@@ -1,165 +1,228 @@
-import { useState, useEffect } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import React from "react"
+import Home from "./pages/Home"
+import Explore from "./pages/Explore"
+import Alerts from "./pages/Alerts"
+import Compare from "./pages/Compare"
+import Statistics from "./pages/Statistics"
+import Map from "./pages/Map"
+import ThemeToggle from "./components/ThemeToggle"
 
-// Fix pour icônes Leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
-});
-
-const OPEN_CAGE_KEY = "41cc25f722dd4dc4ad724a5274723590";
-
-type Coords = {
-  lat: number;
-  lon: number;
-};
-
-type Weather = {
-  temperature: number;
-  windspeed: number;
-  winddirection: number;
-};
-
-type ChangeViewProps = {
-  center: [number, number];
-};
-
-//  Composant pour recentrer dynamiquement la carte
-function ChangeView({ center }: ChangeViewProps): null {
-  const map = useMap();
-  map.setView(center);
-  return null;
-}
+type Tab = "home" | "explore" | "alerts" | "compare" | "statistics" | "map"
 
 function App() {
-  const [city, setCity] = useState<string>("Douala");
-  const [coords, setCoords] = useState<Coords>({ lat: 4.0511, lon: 9.7679 });
-  const [weather, setWeather] = useState<Weather | null>(null);
-  const [history, setHistory] = useState<string[]>([]);
-
-  // Charger la météo dès que les coordonnées changent
-  useEffect(() => {
-    fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current_weather=true`
-    )
-      .then((res) => res.json())
-      .then((data) => setWeather(data.current_weather));
-  }, [coords]);
-
-  // Détection de saisie automatique dans le champ avec délai
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!city.trim()) return;
-
-      const fetchCoords = async () => {
-        const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${OPEN_CAGE_KEY}`;
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (data.results.length > 0) {
-          const { lat, lng } = data.results[0].geometry;
-          setCoords({ lat, lon: lng });
-
-          setHistory((prev) =>
-            prev.includes(city) ? prev : [city, ...prev].slice(0, 10)
-          );
-        }
-      };
-
-      fetchCoords();
-    }, 1000); // ⏳ délai de 1 seconde
-
-    return () => clearTimeout(timeout);
-  }, [city]);
-
-  const getWeatherIcon = (temp: number): string => {
-    if (temp < 5) return "❄️";
-    if (temp < 15) return "🌥️";
-    if (temp < 25) return "⛅";
-    return "☀️";
-  };
-
-  const handleHistoryClick = (ville: string) => {
-    setCity(ville);
-  };
+  const [tab, setTab] = React.useState<Tab>("home")
+  const [menuOpen, setMenuOpen] = React.useState(false)
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "Arial" }}>
-      <h1>Météo en temps réel 🌍</h1>
+    <div
+      className="min-h-screen text-base-content relative"
+      style={{ backgroundImage: `var(--app-gradient)` }}
+    >
+      <div className="absolute inset-0 opacity-100" style={{ backgroundImage: `var(--app-halo)` }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none" />
+      
+      <div className="relative">
+        <nav className="sticky top-0 z-30 backdrop-blur-2xl bg-white/10 border-b border-white/20 shadow-2xl">
+          <div className="container mx-auto px-4 py-4">
+            {/* Desktop & Mobile Header */}
+            <div className="flex items-center justify-between gap-3">
+              {/* Logo */}
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 text-white grid place-items-center font-black shadow-xl shadow-blue-500/30 backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-110 hover:shadow-2xl">
+                  S
+                </div>
+                <div className="hidden sm:block">
+                  <div className="text-xl sm:text-2xl font-black leading-tight tracking-tight text-white drop-shadow-lg">
+                    SkyNow
+                  </div>
+                  <div className="text-[10px] sm:text-xs text-white/80 font-medium uppercase tracking-wider">
+                    Weather • Alerts • Insights
+                  </div>
+                </div>
+              </div>
 
-      {/* Champ de recherche sans bouton */}
-      <input
-        type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        placeholder="Entrer une ville"
-        style={{ padding: "0.5rem", fontSize: "1rem", width: "300px" }}
-      />
+              {/* Desktop Navigation */}
+              <div className="hidden lg:flex items-center gap-3">
+                <div className="flex items-center gap-2 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md overflow-hidden p-1">
+                  <button 
+                    className={`px-4 py-2 rounded-xl transition-all duration-300 text-sm font-semibold whitespace-nowrap ${
+                      tab === "home" 
+                        ? "bg-white/25 text-white shadow-lg" 
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`} 
+                    onClick={() => setTab("home")}
+                  >
+                    Conditions
+                  </button>
+                  <button 
+                    className={`px-4 py-2 rounded-xl transition-all duration-300 text-sm font-semibold whitespace-nowrap ${
+                      tab === "explore" 
+                        ? "bg-white/25 text-white shadow-lg" 
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`} 
+                    onClick={() => setTab("explore")}
+                  >
+                    Explorer
+                  </button>
+                  <button 
+                    className={`px-4 py-2 rounded-xl transition-all duration-300 text-sm font-semibold whitespace-nowrap ${
+                      tab === "alerts" 
+                        ? "bg-white/25 text-white shadow-lg" 
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`} 
+                    onClick={() => setTab("alerts")}
+                  >
+                    Alertes
+                  </button>
+                  <button 
+                    className={`px-4 py-2 rounded-xl transition-all duration-300 text-sm font-semibold whitespace-nowrap ${
+                      tab === "compare" 
+                        ? "bg-white/25 text-white shadow-lg" 
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`} 
+                    onClick={() => setTab("compare")}
+                  >
+                    Comparer
+                  </button>
+                  <button 
+                    className={`px-4 py-2 rounded-xl transition-all duration-300 text-sm font-semibold whitespace-nowrap ${
+                      tab === "statistics" 
+                        ? "bg-white/25 text-white shadow-lg" 
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`} 
+                    onClick={() => setTab("statistics")}
+                  >
+                    Statistiques
+                  </button>
+                  <button 
+                    className={`px-4 py-2 rounded-xl transition-all duration-300 text-sm font-semibold whitespace-nowrap ${
+                      tab === "map" 
+                        ? "bg-white/25 text-white shadow-lg" 
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`} 
+                    onClick={() => setTab("map")}
+                  >
+                    Carte
+                  </button>
+                </div>
+                <ThemeToggle />
+              </div>
 
-{weather && (
-  <>
-    <div className="weather-box">
-      <h2>{city}</h2>
-      <p>
-        {getWeatherIcon(weather.temperature)} Température : {weather.temperature}°C
-      </p>
-      <p>💨 Vent : {weather.windspeed} km/h</p>
-      <p>🧭 Direction du vent : {weather.winddirection}°</p>
-    </div>
+              {/* Mobile Menu Button & Theme */}
+              <div className="flex lg:hidden items-center gap-2">
+                <ThemeToggle />
+                <button
+                  className="p-2 rounded-xl bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {menuOpen ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    )}
+                  </svg>
+                </button>
+              </div>
+            </div>
 
-    <div className="map-wrapper">
-      <MapContainer
-        center={[coords.lat, coords.lon]}
-        zoom={10}
-        style={{ height: "400px", width: "100%" }}
-      >
-        <ChangeView center={[coords.lat, coords.lon]} />
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; OpenStreetMap contributors"
-        />
-        <Marker position={[coords.lat, coords.lon]}>
-          <Popup>{city}</Popup>
-        </Marker>
-      </MapContainer>
+            {/* Mobile Menu Dropdown */}
+            {menuOpen && (
+              <div className="lg:hidden mt-4 space-y-2 animate-fade-in">
+                <button 
+                  className={`w-full px-4 py-3 rounded-xl transition-all duration-300 text-left font-semibold ${
+                    tab === "home" 
+                      ? "bg-white/25 text-white shadow-lg" 
+                      : "bg-white/10 text-white/80 hover:bg-white/20"
+                  }`} 
+                  onClick={() => {
+                    setTab("home")
+                    setMenuOpen(false)
+                  }}
+                >
+                  🏠 Conditions
+                </button>
+                <button 
+                  className={`w-full px-4 py-3 rounded-xl transition-all duration-300 text-left font-semibold ${
+                    tab === "explore" 
+                      ? "bg-white/25 text-white shadow-lg" 
+                      : "bg-white/10 text-white/80 hover:bg-white/20"
+                  }`} 
+                  onClick={() => {
+                    setTab("explore")
+                    setMenuOpen(false)
+                  }}
+                >
+                  🌍 Explorer
+                </button>
+                <button 
+                  className={`w-full px-4 py-3 rounded-xl transition-all duration-300 text-left font-semibold ${
+                    tab === "alerts" 
+                      ? "bg-white/25 text-white shadow-lg" 
+                      : "bg-white/10 text-white/80 hover:bg-white/20"
+                  }`} 
+                  onClick={() => {
+                    setTab("alerts")
+                    setMenuOpen(false)
+                  }}
+                >
+                  🚨 Alertes
+                </button>
+                <button 
+                  className={`w-full px-4 py-3 rounded-xl transition-all duration-300 text-left font-semibold ${
+                    tab === "compare" 
+                      ? "bg-white/25 text-white shadow-lg" 
+                      : "bg-white/10 text-white/80 hover:bg-white/20"
+                  }`} 
+                  onClick={() => {
+                    setTab("compare")
+                    setMenuOpen(false)
+                  }}
+                >
+                  ⚖️ Comparer
+                </button>
+                <button 
+                  className={`w-full px-4 py-3 rounded-xl transition-all duration-300 text-left font-semibold ${
+                    tab === "statistics" 
+                      ? "bg-white/25 text-white shadow-lg" 
+                      : "bg-white/10 text-white/80 hover:bg-white/20"
+                  }`} 
+                  onClick={() => {
+                    setTab("statistics")
+                    setMenuOpen(false)
+                  }}
+                >
+                  📊 Statistiques
+                </button>
+                <button 
+                  className={`w-full px-4 py-3 rounded-xl transition-all duration-300 text-left font-semibold ${
+                    tab === "map" 
+                      ? "bg-white/25 text-white shadow-lg" 
+                      : "bg-white/10 text-white/80 hover:bg-white/20"
+                  }`} 
+                  onClick={() => {
+                    setTab("map")
+                    setMenuOpen(false)
+                  }}
+                >
+                  🗺️ Carte
+                </button>
+              </div>
+            )}
+          </div>
+        </nav>
+
+        <main className="relative">
+          {tab === "home" && <Home />}
+          {tab === "explore" && <Explore />}
+          {tab === "alerts" && <Alerts />}
+          {tab === "compare" && <Compare />}
+          {tab === "statistics" && <Statistics />}
+          {tab === "map" && <Map />}
+        </main>
+      </div>
     </div>
-  </>
-)}
-     {/* Historique */}
-      {history.length > 0 && (
-        <div style={{ marginTop: "2rem" }}>
-          <h3>Historique :</h3>
-          <ul>
-            {history.map((ville, i) => (
-              <li
-                key={i}
-                onClick={() => handleHistoryClick(ville)}
-                style={{
-                  cursor: "pointer",
-                  color: "blue",
-                  textDecoration: "underline",
-                  marginBottom: "4px",
-                }}
-              >
-                {ville}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
+  )
 }
 
-export default App;
+export default App

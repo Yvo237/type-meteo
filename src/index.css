@@ -1,67 +1,28 @@
-/* index.css */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #dbeafe, #eff6ff);
-  color: #1e3a8a;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
 
-input[type="text"] {
-  display: block;
-  margin: 0 auto;
-  border: 2px solid #60a5fa;
-  border-radius: 5px;
-  width: 300px;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  outline: none;
-  transition: 0.3s;
-}
+  body {
+    @apply min-h-screen antialiased;
+    background-color: transparent;
+  }
 
-input[type="text"]:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
-}
+  :root[data-theme='meteodark'] {
+    --app-gradient: radial-gradient(120% 120% at 20% 20%, rgba(59,130,246,0.18) 0%, transparent 50%),
+                    radial-gradient(120% 120% at 80% 0%, rgba(251,191,36,0.16) 0%, transparent 45%),
+                    linear-gradient(135deg, #05070E 0%, #0B1220 60%, #05070E 100%);
+    --app-halo: radial-gradient(circle at 50% 80%, rgba(96,165,250,0.15), transparent 40%);
+  }
 
-.map-wrapper {
-  margin-top: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.weather-box {
-  background: white;
-  padding: 1.5rem;
-  margin: 1.5rem auto;
-  border-radius: 10px;
-  max-width: 600px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-ul {
-  list-style: none;
-  padding-left: 0;
-  text-align: center;
-}
-
-ul li {
-  display: inline-block;
-  margin: 0.25rem 0.5rem;
-  padding: 0.3rem 0.6rem;
-  background: #bfdbfe;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-ul li:hover {
-  background: #60a5fa;
-  color: white;
+  :root[data-theme='meteolight'] {
+    --app-gradient: radial-gradient(120% 120% at 20% 20%, rgba(59,130,246,0.12) 0%, transparent 50%),
+                    radial-gradient(120% 120% at 80% 0%, rgba(251,191,36,0.10) 0%, transparent 45%),
+                    linear-gradient(135deg, #0F172A 0%, #111827 60%, #0F172A 100%);
+    --app-halo: radial-gradient(circle at 50% 80%, rgba(59,130,246,0.12), transparent 40%);
+  }
 }
