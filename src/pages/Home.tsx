@@ -235,9 +235,9 @@ export default function Home() {
       </header>
 
       {/* Search Section */}
-      <div className="max-w-4xl mx-auto space-y-4 relative z-[999]">
+      <div className="max-w-4xl mx-auto space-y-4">
         <div className="backdrop-blur-xl bg-gradient-to-br from-white/15 to-white/5 border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-blue-500/10 transition-shadow duration-500">
-          <div className="relative z-[1000]">
+          <div>
             <SearchBar
               value={query}
               onChange={handleSearchChange}
