@@ -54,7 +54,7 @@ export default function Map() {
         }
       }
     } catch (err) {
-      console.error(err)
+      console.error('Erreur recherche:', err)
     }
   }
 

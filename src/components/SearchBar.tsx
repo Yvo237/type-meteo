@@ -63,7 +63,7 @@ export default function SearchBar({
           )}
         </div>
         {(suggestions.length > 0 || isLoading) && (
-          <div className="absolute left-0 right-0 top-full z-[100] bg-base-100 shadow-2xl rounded-xl w-full mt-2 border border-base-300 overflow-hidden backdrop-blur-xl max-h-64 overflow-y-auto">
+          <div className="absolute left-0 right-0 top-full z-[1000] bg-base-100 shadow-2xl rounded-xl w-full mt-2 border border-base-300 overflow-hidden backdrop-blur-xl max-h-64 overflow-y-auto">
             {isLoading && (
               <div className="p-3 flex items-center gap-2 text-sm text-base-content">
                 <span className="loading loading-spinner loading-xs" />

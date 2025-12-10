@@ -1,0 +1,32 @@
+<svg width="200" height="200" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
+  <title>Sun behind cloud icon</title>
+  <!-- Sun -->
+  <circle cx="18" cy="18" r="10" fill="#FDB813"/>
+  <!-- Sun rays -->
+  <g stroke="#FDB813" stroke-width="2" stroke-linecap="round">
+    <line x1="18" y1="4" x2="18" y2="0"/>
+    <line x1="18" y1="36" x2="18" y2="40"/>
+    <line x1="4" y1="18" x2="0" y2="18"/>
+    <line x1="36" y1="18" x2="40" y2="18"/>
+    <line x1="7.5" y1="7.5" x2="5" y2="5"/>
+    <line x1="28.5" y1="28.5" x2="31" y2="31"/>
+    <line x1="7.5" y1="28.5" x2="5" y2="31"/>
+    <line x1="28.5" y1="7.5" x2="31" y2="5"/>
+  </g>
+
+  <!-- Cloud (overlapping the sun) -->
+  <path d="M44 40
+           c5 0 9-3.5 9-8
+           s-4-8-9-8
+           c-1 0-2 0-3 .4
+           C39 23 36 20 32 20
+           c-5 0-9 4-9 9
+           c0 .3 0 .6 0 .9
+           C19 30.5 16 33.9 16 38
+           c0 4.5 3.7 8 8.2 8
+           H44z"
+        fill="#FFFFFF" stroke="#94A3B8" stroke-width="2" />
+
+  <!-- Soft cloud shadow -->
+  <ellipse cx="36" cy="46" rx="16" ry="3" fill="#00000020"/>
+</svg>
